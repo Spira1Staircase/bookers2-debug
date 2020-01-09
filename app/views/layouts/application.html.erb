@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Bookers2</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body>
+    <!--ヘッダーの記述-->
+    <<header class="navbar navbar-fixed-top navbar-inverse">
+      <div class="container">
+
+        <nav class="nav navbar-nav navbar-left">
+          <span>Bookers</span>
+        </nav>
+        <nav>
+          <ul class="nav navbar-nav navbar-right">
+            <!--if文でサインインとアウト時の表示を変更-->
+            <% if user_signed_in? %>
+            <li><%= link_to ' home', user_path(current_user), class: 'glyphicon glyphicon-home home' %></li>
+            <li><%= link_to ' users', users_path, class: 'glyphicon glyphicon-user users' %></li>
+            <li><%= link_to ' books', books_path, class: 'glyphicon glyphicon-book books' %></li>
+            <li><%= link_to ' log out', destroy_user_session_path, method: :delete, class: 'glyphicon glyphicon-log-out logout' %></li>
+            <% else %>
+            <li><%= link_to ' home', root_path, class: 'glyphicon glyphicon-home home' %></li>
+            <li><%= link_to ' about', home_about_path, class: 'glyphicon glyphicon-link about' %></li>
+            <li><%= link_to ' signup', new_user_registration_path, class: 'glyphicon glyphicon-edit sign_up' %></li>
+            <li><%= link_to ' log in', new_user_session_path, class: 'glyphicon glyphicon-log-in sign_in' %></li>
+            <% end %>
+          </ul>
+        </nav>
+
+      </div>
+    </header>
+    <!--ヘッダーの記述-->
+    <div class="container">
+      <p id="notice"><%= notice %></p> <!--デバイスでnotice設定されているので呼び出してるだけ-->
+
+    </div>
+  </body>
+</html>
