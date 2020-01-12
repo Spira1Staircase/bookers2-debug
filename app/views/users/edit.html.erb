@@ -1,21 +1,21 @@
 <h2>User info</h2>
-
-<%= form_for(@user) do |f| %>
-
 <!-- エラーメッセージ表示-->
+<div>
 <% if @user.errors.any? %>
-	<h3><%= @user.errors.count %>error occurrence</h3><!--エラーメッセ-->
+	<h3><%= @user.errors.count %>件のエラーが発生しました。</h3><!--エラーメッセ-->
 	<ul>
 		<% @user.errors.full_messages.each do |message| %>
-		<li><%= message %></li>
+		<li>error <%= message %></li>
 		<% end %>
 	</ul>
 <% end %>
+</div>
 <!-- エラーメッセージ表示-->
+<%= form_for(@user, url: "/users/#{@user.id}") do |f| %>
 
 <div class="field">
-	<%= f.label :title %>
-	<%= f.text_field :title, class: "name" %>
+	<%= f.label :name %>
+	<%= f.text_field :name, class: "name" %>
 </div>
 
 <div class="field">

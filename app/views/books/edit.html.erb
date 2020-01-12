@@ -1,9 +1,33 @@
+<% if @book.errors.any? %>
+	<div>
+		<h2><%= @book.errors.count %> 件のエラーが発生しました。</h2>
+		<ul>
+		<% @book.errors.full_messages.each do |message| %>
+		<li>error <%= message %></li>
+		<% end %>
+		<ul>
+	</div>
+<% end %>
 <div class="row">
 <div class="col-md-6 col-md-offset-3">
 
 <h1>Editing Book</h1>
 
-<%= render "books/newform", book: @book %>
+<%= form_for @book, url: book_path(@book) do |f| %>
+	<div class="field row">
+		<%= f.label :title %>
+		<%= f.text_field :title, class: "col-xs-12 book_title" %>
+	</div>
+
+	<div class="field row">
+		<%= f.label :body, "opinion" %> <!-- ここを変更 -->
+		<%= f.text_area :body, class: "col-xs-12 book_body" %>
+	</div>
+
+	<div class="actions row">
+		<%= f.submit class: "btn btn-primary col-xs-12" %>
+	</div>
+<% end %>
 <%= link_to "Show", @book, class: "book_#{@book.id}" %>
 <%= link_to "Back", books_path, class: "back" %>
 
