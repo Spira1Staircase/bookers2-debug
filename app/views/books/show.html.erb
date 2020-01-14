@@ -1,11 +1,15 @@
 <div class="container">
 	<div class="row">
+<!-- サイドバー -->
+
+
 		<div class="col-xs-3">
 			<h2>User info</h2>
 			<%= render 'users/profile' %>
 			<h2>New book</h2>
 			<%= render 'books/newform' %>
 		</div>
+<!-- bookの詳細について -->
 		<div class="col-xs-9">
 			<h2>Book detail</h2>
 				<table class="table">
@@ -18,12 +22,55 @@
 						</td>
 						<td><%= link_to @book.title, @book %></td>
 						<td><%= @book.body %></td>
+						<td>
+							<% if @book.favorited_by?(@user) %>
+								<%= link_to book_favorites_path(@book), method: :delete do %>
+									<span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+								<% end %>
+								<%= @book.favorites.count %>いいね
+							 <% else %>
+								<%= link_to book_favorites_path(@book), method: :post do %>
+									<span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
+								<% end %>
+								<%= @book.favorites.count %>いいね
+							<% end %>
+						</td>
 						<% if @book.user == current_user %>
 						<td><%= link_to "Edit",edit_book_path(@book), class: "btn-sm btn-success edit_book_#{@book.id}" %></td>
 						<td><%= link_to "Destroy",@book, method: :delete, data: {confirm: "本当に削除してもよろしいですか？"}, class: "btn-sm btn-danger destroy_book_#{@book.id}" %></td>
 						<% end %>
 					</tr>
 				</table>
+<!-- コメントブロック -->
+			<h3>コメント</h3>
+			<div class="comment_form">
+				<%= form_for [@book, @book_comment] do |f| %>
+				<%= f.text_area :comment, placeholder: "コメントをここに", size: "50x5" %><br>
+				<%= f.submit "送信", class: "btn btn-info" %>
+				<% end %>
+			</div>
+			<table class="table">
+				<tr>
+					<th>コメント投稿者</th>
+					<th>コメント</th>
+					<th></th>
+				</tr>
+				<% @book.book_comments.each do |comment| %>
+				<tr>
+					<td>
+						<%= comment.user.name %>
+					</td>
+					<td>
+						<%= comment.comment %>
+					</td>
+					<td>
+						<% if comment.user == current_user %>
+						<%= link_to '削除', book_book_comments_path(@book.id), method: :delete, class: "btn btn-danger"  %>
+						<% end %>
+					</td>
+				</tr>
+			</table>
+			<% end %>
 		</div>
 	</div>
 </div>
